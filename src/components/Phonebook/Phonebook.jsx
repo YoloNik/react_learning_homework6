@@ -66,8 +66,6 @@ const Phonebook = ({
   };
 
   const deleteContact = e => {
-    console.log(e.target.name);
-
     onRemoveContact(e.target.name);
   };
 

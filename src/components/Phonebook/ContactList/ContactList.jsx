@@ -4,7 +4,6 @@ import { AiOutlineUserDelete } from 'react-icons/ai';
 import PropTypes from 'prop-types';
 
 function ContactList({ filter, contacts, filterByName, deleteContact }) {
-  console.log(filterByName());
   return (
     <ul className={s.contactList}>
       {(filter &&
