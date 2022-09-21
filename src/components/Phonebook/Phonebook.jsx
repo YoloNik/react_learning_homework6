@@ -21,7 +21,7 @@ const Phonebook = ({
 }) => {
   const [user, setUser] = useState('');
   const [number, setNumber] = useState('');
-  const filter = useSelector(state => state.contacts.filter);
+  const filter = useSelector(state => state.filter);
   const filterDispatch = useDispatch();
 
   useEffect(() => {
@@ -48,15 +48,17 @@ const Phonebook = ({
   const addContact = e => {
     e.preventDefault();
 
-    const searchSameName = contacts.items.map(cont => cont.name).includes(user);
+    const newContact = {
+      name: user,
+      number: number,
+      id: nanoid(),
+    };
+
+    const searchSameName = contacts.map(cont => cont.name).includes(user);
 
     searchSameName
       ? alert(`${user} is already in contacts`)
-      : onAddContact({
-          name: user,
-          number: number,
-          id: nanoid(),
-        });
+      : onAddContact(newContact);
     reset();
   };
 
@@ -70,7 +72,7 @@ const Phonebook = ({
   };
 
   const filterByName = () => {
-    return contacts.items.filter(el =>
+    return contacts.filter(el =>
       el.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase()),
     );
   };
@@ -89,7 +91,7 @@ const Phonebook = ({
       <FilterPhonebook filterValue={filter} onChange={handleChange} />
       <ContactList
         filter={filter}
-        contacts={contacts.items}
+        contacts={contacts}
         filterByName={filterByName}
         deleteContact={deleteContact}
       />
@@ -98,7 +100,7 @@ const Phonebook = ({
 };
 
 const mapStateToProps = state => ({
-  contacts: state.contacts,
+  contacts: state.items,
 });
 
 const mapDispatchToProps = dispatch => ({
